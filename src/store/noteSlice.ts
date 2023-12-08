@@ -1,10 +1,21 @@
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
 import {TNoteState} from "@/../types/redux/NoteState";
-import {hashTags as hashTagsReqExp} from "@/constants/reqExp/reqExp";
 import {v4 as uuidv4} from "uuid";
+import findHashTags from "@/helpers/findHashTags";
 
-const initialState: TNoteState = [];
+const initialState: TNoteState = [
+  {
+    id: uuidv4(),
+    text: "Note 1 Note 1",
+    hashTags: [],
+  },
+  {
+    id: uuidv4(),
+    text: "Note 2 Note 2 Note 2 Note 2Note 2 Note 2Note 2 Note 2Note 2 Note 2Note 2 Note 2Note 2 Note 2",
+    hashTags: [],
+  },
+];
 
 export const noteSlice = createSlice({
   name: "notes",
@@ -13,7 +24,7 @@ export const noteSlice = createSlice({
 
   reducers: {
     addNote: (state, action: PayloadAction<string>) => {
-      const hashTags = action.payload.match(hashTagsReqExp) || [];
+      const hashTags = findHashTags(action.payload);
 
       state.push({id: uuidv4(), text: action.payload, hashTags});
     },
@@ -27,7 +38,7 @@ export const noteSlice = createSlice({
 
     editNote: (state, action: PayloadAction<{id: string; text: string}>) => {
       const {id, text} = action.payload;
-      const hashTags = text.match(hashTagsReqExp) || [];
+      const hashTags = findHashTags(text);
       const noteIndex = state.findIndex((note) => note.id === id);
 
       state[noteIndex] = {
