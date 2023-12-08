@@ -3,12 +3,12 @@ import {Inter} from "next/font/google";
 import Header from "@/components/Header";
 import AddNote from "@/components/AddNote";
 import {useDispatch, useSelector} from "react-redux";
-import {addNote, removeNote, editNote} from "../store/noteSlice";
+import {setNotes, addNote, removeNote, editNote} from "../store/noteSlice";
 import {RootState} from "@/store";
 import Note from "@/components/Note";
-import {Box, Grid} from "@mui/material";
+import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
-import {INote} from "../../types/redux/NoteState";
+import {INote, TNoteState} from "../../types/redux/NoteState";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -18,6 +18,20 @@ export default function Home() {
 
   const [search, setSearch] = useState("");
   const [currentNotes, setCurrentNotes] = useState<null | Array<INote>>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const notesFromLocalStorage = localStorage.getItem("notes");
+
+      if (notesFromLocalStorage) {
+        dispatch(setNotes(JSON.parse(notesFromLocalStorage) as TNoteState));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
   useEffect(() => {
     if (!search.length) {

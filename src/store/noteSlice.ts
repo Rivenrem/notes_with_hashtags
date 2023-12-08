@@ -4,18 +4,7 @@ import {TNoteState} from "@/../types/redux/NoteState";
 import {v4 as uuidv4} from "uuid";
 import findHashTags from "@/helpers/findHashTags";
 
-const initialState: TNoteState = [
-  {
-    id: uuidv4(),
-    text: "Note 1 Note 1",
-    hashTags: [],
-  },
-  {
-    id: uuidv4(),
-    text: "Note 2 Note 2 Note 2 Note 2Note 2 Note 2Note 2 Note 2Note 2 Note 2Note 2 Note 2Note 2 Note 2",
-    hashTags: [],
-  },
-];
+const initialState: TNoteState = [];
 
 export const noteSlice = createSlice({
   name: "notes",
@@ -23,6 +12,10 @@ export const noteSlice = createSlice({
   initialState,
 
   reducers: {
+    setNotes: (state, action: PayloadAction<TNoteState>) => {
+      state.push(...action.payload);
+    },
+
     addNote: (state, action: PayloadAction<string>) => {
       const hashTags = findHashTags(action.payload);
 
@@ -51,6 +44,6 @@ export const noteSlice = createSlice({
   },
 });
 
-export const {addNote, removeNote, editNote} = noteSlice.actions;
+export const {setNotes, addNote, removeNote, editNote} = noteSlice.actions;
 
 export default noteSlice.reducer;
