@@ -18,6 +18,7 @@ export default function AddNote({
   return (
     <TextField
       type="text"
+      autoComplete="off"
       placeholder="New note"
       InputProps={{
         startAdornment: (
