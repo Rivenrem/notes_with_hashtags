@@ -27,7 +27,7 @@ export default function Home() {
         dispatch(setNotes(JSON.parse(notesFromLocalStorage) as TNoteState));
       }
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
