@@ -25,6 +25,10 @@ main {
   max-width: 1200px;
 }
 
+.hashTag {
+  color: blue;
+}
+
 @media (max-width: 900px) {
   main {
     margin: 2rem 2rem;
